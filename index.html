@@ -1,0 +1,165 @@
+<!-- index.html -->
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Multi-Account Chat Scheduler</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/4.1.1/crypto-js.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            background-color: #e6f2ff; /* Light blue background */
+            margin: 0;
+            padding: 20px;
+            color: #333;
+        }
+        
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 0 20px rgba(0,0,0,0.1);
+            padding: 20px;
+        }
+        
+        h1 {
+            font-family: 'Georgia', serif;
+            border-bottom: 2px solid #3498db;
+            padding-bottom: 10px;
+            margin-bottom: 20px;
+        }
+        
+        .colorful {
+            background: linear-gradient(45deg, #ff9a9e, #fad0c4, #fad0c4, #a18cd1, #fbc2eb);
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+            font-size: 24px;
+            font-weight: bold;
+            text-align: center;
+            padding: 10px 0;
+        }
+        
+        .config-section {
+            background: #f8f9fa;
+            padding: 20px;
+            border-radius: 10px;
+            margin-bottom: 20px;
+        }
+        
+        label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: bold;
+            color: #2c3e50;
+        }
+        
+        input, select, button {
+            width: 100%;
+            padding: 12px;
+            margin-bottom: 15px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            font-size: 16px;
+            font-family: 'Helvetica', sans-serif;
+        }
+        
+        button {
+            background: linear-gradient(135deg, #3498db 0%, #2980b9 100%);
+            color: white;
+            border: none;
+            cursor: pointer;
+            transition: background 0.3s;
+            font-weight: bold;
+        }
+        
+        button:hover {
+            background: linear-gradient(135deg, #2980b9 0%, #3498db 100%);
+        }
+        
+        #chatLog {
+            height: 400px;
+            overflow-y: auto;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            padding: 10px;
+            background: #f9f9f9;
+        }
+        
+        .log-entry {
+            padding: 10px;
+            border-bottom: 1px dashed #eee;
+            display: flex;
+            align-items: center;
+        }
+        
+        .log-entry:nth-child(odd) {
+            background: #f1f1f1;
+        }
+        
+        .log-icon {
+            margin-right: 10px;
+            color: #3498db;
+        }
+        
+        .timestamp {
+            color: #7f8c8d;
+            font-size: 14px;
+            font-family: 'Courier New', monospace;
+        }
+        
+        .account-info {
+            color: #2c3e50;
+            font-weight: bold;
+        }
+        
+        .message-info {
+            flex: 1;
+            color: #333;
+        }
+        
+        #stopKey {
+            margin-top: 10px;
+            padding: 10px;
+            background: #f1f1f1;
+            border-radius: 5px;
+            text-align: center;
+        }
+        
+        .stop-key-icon {
+            margin-right: 5px;
+            color: #e74c3c;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1><i class="fas fa-comment"></i> <span class="colorful">Multi-Account Chat Scheduler</span></h1>
+        
+        <div class="config-section">
+            <h2 class="colorful"><i class="fas fa-cog"></i> Configuration</h2>
+            
+            <label for="accountsFile" class="colorful"><i class="fas fa-file"></i> Login Credentials File (.txt):</label>
+            <input type="file" id="accountsFile" accept=".txt">
+            
+            <label for="chatTargetsFile" class="colorful"><i class="fas fa-file"></i> Chat Targets File (.txt):</label>
+            <input type="file" id="chatTargetsFile" accept=".txt">
+            
+            <label for="delaySeconds" class="colorful"><i class="fas fa-clock"></i> Time Delay (Seconds):</label>
+            <input type="number" id="delaySeconds" value="0">
+            
+            <label for="messagesFile" class="colorful"><i class="fas fa-file"></i> Messages File (.txt):</label>
+            <input type="file" id="messagesFile" accept=".txt">
+            
+            <button onclick="startScheduler()" class="colorful"><i class="fas fa-play"></i> Start</button>
+            <button onclick="stopScheduler()" class="colorful"><i class="fas fa-stop"></i> Stop</button>
+            <div id="stopKey"><i class="fas fa-key stop-key-icon"></i> Stop Key Will Appear Here</div>
+        </div>
+        
+        <div id="chatLog"></div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
